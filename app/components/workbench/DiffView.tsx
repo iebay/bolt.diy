@@ -747,7 +747,7 @@ export const DiffView = memo(({ fileHistory, setFileHistory }: DiffViewProps) =>
       <div className="flex w-full h-full justify-center items-center bg-bolt-elements-background-depth-1 text-red-400">
         <div className="text-center">
           <div className="i-ph:warning-circle text-4xl mb-2" />
-          <p>Failed to render diff view</p>
+          <p>对比视图渲染失败</p>
         </div>
       </div>
     );
