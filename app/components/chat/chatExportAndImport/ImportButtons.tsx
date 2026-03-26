@@ -31,8 +31,8 @@ export function ImportButtons(importChat: ((description: string, messages: Messa
 
                   // Standard format
                   if (Array.isArray(data.messages)) {
-                    await importChat(data.description || 'Imported Chat', data.messages);
-                    toast.success('Chat imported successfully');
+                    await importChat(data.description || '导入的对话', data.messages);
+                    toast.success('对话导入成功');
 
                     return;
                   }
