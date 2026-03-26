@@ -7,7 +7,7 @@ import {
   formatDataStreamPart,
 } from 'ai';
 // STDIO transport not supported in Cloudflare Workers - use SSE or streamable-http instead
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+// Using ai built-in SSE transport for all HTTP-based MCP connections
 import { z } from 'zod';
 import type { ToolCallAnnotation } from '~/types/context';
 import {
@@ -175,12 +175,12 @@ export class MCPService {
     logger.debug(`Creating Streamable-HTTP client for ${serverName} with URL: ${config.url}`);
 
     const client = await experimental_createMCPClient({
-      transport: new StreamableHTTPClientTransport(new URL(config.url), {
-        requestInit: {
+        transport: {
+          type: 'sse' as const,
+          url: config.url,
           headers: config.headers,
         },
-      }),
-    });
+      });
 
     return Object.assign(client, { serverName });
   }
