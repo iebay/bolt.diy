@@ -163,7 +163,6 @@ export const ChatImpl = memo(
       error,
       data: chatData,
       setData,
-      addToolResult,
     } = useChat({
       api: '/api/chat',
       body: {
@@ -568,7 +567,6 @@ export const ChatImpl = memo(
         deployAlert={deployAlert}
         clearDeployAlert={() => workbenchStore.clearDeployAlert()}
         data={chatData}
-        addToolResult={addToolResult}
       />
     );
   },
