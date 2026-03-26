@@ -28,7 +28,7 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
     if (filteredFiles.length === 0) {
       const error = new Error('No valid files found');
       logStore.logError('File import failed - no valid files', error, { folderName: 'Unknown Folder' });
-      toast.error('No files found in the selected folder');
+      toast.error('所选文件夹中没有找到文件');
 
       return;
     }
@@ -49,7 +49,7 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
     const folderName = filteredFiles[0]?.webkitRelativePath.split('/')[0] || 'Unknown Folder';
     setIsLoading(true);
 
-    const loadingToast = toast.loading(`Importing ${folderName}...`);
+    const loadingToast = toast.loading(`正在导入 ${folderName}...`);
 
     try {
       const fileChecks = await Promise.all(
@@ -91,11 +91,11 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
         textFileCount: textFiles.length,
         binaryFileCount: binaryFilePaths.length,
       });
-      toast.success('Folder imported successfully');
+      toast.success('文件夹导入成功');
     } catch (error) {
       logStore.logError('Failed to import folder', error, { folderName });
       console.error('Failed to import folder:', error);
-      toast.error('Failed to import folder');
+      toast.error('文件夹导入失败');
     } finally {
       setIsLoading(false);
       toast.dismiss(loadingToast);
@@ -119,7 +119,7 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
           const input = document.getElementById('folder-import');
           input?.click();
         }}
-        title="Import Folder"
+        title="导入文件夹"
         variant="default"
         size="lg"
         className={classNames(
@@ -134,7 +134,7 @@ export const ImportFolderButton: React.FC<ImportFolderButtonProps> = ({ classNam
         disabled={isLoading}
       >
         <span className="i-ph:upload-simple w-4 h-4" />
-        {isLoading ? 'Importing...' : 'Import Folder'}
+        {isLoading ? '导入中...' : '导入文件夹'}
       </Button>
     </>
   );
