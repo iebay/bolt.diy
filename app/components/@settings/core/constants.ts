@@ -51,6 +51,7 @@ export const TAB_DESCRIPTIONS: Record<TabType, string> = {
   update: 'Check for updates and release notes',
   'task-manager': 'Monitor system resources and processes',
   'tab-management': 'Configure visible tabs and their order',
+  mcp: 'Configure Model Context Protocol servers and tools',
 };
 
 export const DEFAULT_TAB_CONFIG = [
@@ -72,6 +73,7 @@ export const DEFAULT_TAB_CONFIG = [
   // User Window Tabs (Hidden, controlled by TaskManagerTab)
   { id: 'debug', visible: false, window: 'user' as const, order: 11 },
   { id: 'update', visible: false, window: 'user' as const, order: 12 },
+  { id: 'mcp', visible: true, window: 'user' as const, order: 13 },
 
   // Developer Window Tabs (All visible by default)
   { id: 'features', visible: true, window: 'developer' as const, order: 0 },
@@ -87,4 +89,5 @@ export const DEFAULT_TAB_CONFIG = [
   { id: 'service-status', visible: true, window: 'developer' as const, order: 10 },
   { id: 'debug', visible: true, window: 'developer' as const, order: 11 },
   { id: 'update', visible: true, window: 'developer' as const, order: 12 },
+  { id: 'mcp', visible: true, window: 'developer' as const, order: 13 },
 ];
