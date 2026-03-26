@@ -4,7 +4,7 @@
  */
 import { useStore } from '@nanostores/react';
 import type { Message } from 'ai';
-import { useChat } from '@ai-sdk/react';
+import { useChat } from 'ai/react';
 import { useAnimate } from 'framer-motion';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { cssTransition, toast, ToastContainer } from 'react-toastify';
