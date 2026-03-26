@@ -101,7 +101,7 @@
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/addon-web-links": "^0.11.0",
     "@xterm/xterm": "^5.5.0",
-    "ai": "^4.1.2",
+    "ai": "4.1.2",
     "chalk": "^5.4.1",
     "chart.js": "^4.4.7",
     "class-variance-authority": "^0.7.0",
@@ -152,9 +152,7 @@
     "use-debounce": "^10.0.4",
     "vite-plugin-node-polyfills": "^0.22.0",
     "zod": "^3.24.1",
-    "zustand": "^5.0.3",
-    "@ai-sdk/react": "^1.1.2",
-    "@ai-sdk/ui-utils": "^1.1.2"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@blitz/eslint-plugin": "0.1.0",
