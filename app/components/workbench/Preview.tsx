@@ -726,7 +726,7 @@ export const Preview = memo(() => {
                           openInNewTab();
                         }}
                       >
-                        <span>Open in new tab</span>
+                        <span>在新标签页打开</span>
                         <div className="i-ph:arrow-square-out h-5 w-4" />
                       </button>
                       <button
@@ -757,7 +757,7 @@ export const Preview = memo(() => {
                           );
                         }}
                       >
-                        <span>Open in new window</span>
+                        <span>在新窗口打开</span>
                         <div className="i-ph:browser h-5 w-4" />
                       </button>
                       <div className="flex items-center justify-between">
