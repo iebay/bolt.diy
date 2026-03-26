@@ -37,6 +37,7 @@ import ConnectionsTab from '~/components/@settings/tabs/connections/ConnectionsT
 import CloudProvidersTab from '~/components/@settings/tabs/providers/cloud/CloudProvidersTab';
 import ServiceStatusTab from '~/components/@settings/tabs/providers/status/ServiceStatusTab';
 import LocalProvidersTab from '~/components/@settings/tabs/providers/local/LocalProvidersTab';
+import McpTab from '~/components/@settings/tabs/mcp/McpTab';
 import TaskManagerTab from '~/components/@settings/tabs/task-manager/TaskManagerTab';
 
 interface ControlPanelProps {
@@ -335,6 +336,8 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
         return <TaskManagerTab />;
       case 'service-status':
         return <ServiceStatusTab />;
+      case 'mcp':
+        return <McpTab />;
       default:
         return null;
     }

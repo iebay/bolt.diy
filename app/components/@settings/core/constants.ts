@@ -15,6 +15,7 @@ export const TAB_ICONS: Record<TabType, string> = {
   update: 'i-ph:arrow-clockwise-fill',
   'task-manager': 'i-ph:chart-line-fill',
   'tab-management': 'i-ph:squares-four-fill',
+  mcp: 'i-ph:wrench',
 };
 
 export const TAB_LABELS: Record<TabType, string> = {
@@ -32,6 +33,7 @@ export const TAB_LABELS: Record<TabType, string> = {
   update: 'Updates',
   'task-manager': 'Task Manager',
   'tab-management': 'Tab Management',
+  mcp: 'MCP Servers',
 };
 
 export const TAB_DESCRIPTIONS: Record<TabType, string> = {

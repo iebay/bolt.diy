@@ -5,6 +5,8 @@ import Popover from '~/components/ui/Popover';
 import { workbenchStore } from '~/lib/stores/workbench';
 import { WORK_DIR } from '~/utils/constants';
 import WithTooltip from '~/components/ui/Tooltip';
+import { ToolInvocations } from './ToolInvocations';
+import type { ToolCallAnnotation } from '~/types/context';
 
 interface AssistantMessageProps {
   content: string;
@@ -12,6 +14,8 @@ interface AssistantMessageProps {
   messageId?: string;
   onRewind?: (messageId: string) => void;
   onFork?: (messageId: string) => void;
+  parts?: any;
+  addToolResult?: ({ toolCallId, result }: { toolCallId: string; result: any }) => void;
 }
 
 function openArtifactInWorkbench(filePath: string) {
@@ -38,7 +42,7 @@ function normalizedFilePath(path: string) {
   return normalizedPath;
 }
 
-export const AssistantMessage = memo(({ content, annotations, messageId, onRewind, onFork }: AssistantMessageProps) => {
+export const AssistantMessage = memo(({ content, annotations, messageId, onRewind, onFork, parts, addToolResult }: AssistantMessageProps) => {
   const filteredAnnotations = (annotations?.filter(
     (annotation: JSONValue) => annotation && typeof annotation === 'object' && Object.keys(annotation).includes('type'),
   ) || []) as { type: string; value: any } & { [key: string]: any }[];
@@ -61,8 +65,13 @@ export const AssistantMessage = memo(({ content, annotations, messageId, onRewin
     totalTokens: number;
   } = filteredAnnotations.find((annotation) => annotation.type === 'usage')?.value;
 
-  return (
-    <div className="overflow-hidden w-full">
+  const toolInvocations = parts?.filter((part: any) => part.type === 'tool-invocation');
+    const toolCallAnnotations = filteredAnnotations.filter(
+      (annotation) => annotation.type === 'toolCall',
+    ) as ToolCallAnnotation[];
+
+    return (
+      <div className="overflow-hidden w-full">
       <>
         <div className=" flex gap-2 items-center text-sm text-bolt-elements-textSecondary mb-2">
           {(codeContext || chatSummary) && (
@@ -135,7 +144,14 @@ export const AssistantMessage = memo(({ content, annotations, messageId, onRewin
           </div>
         </div>
       </>
-      <Markdown html>{content}</Markdown>
+      {toolInvocations && toolInvocations.length > 0 && addToolResult && (
+          <ToolInvocations
+            toolInvocations={toolInvocations}
+            toolCallAnnotations={toolCallAnnotations}
+            addToolResult={addToolResult}
+          />
+        )}
+        <Markdown html>{content}</Markdown>
     </div>
   );
 });

@@ -17,11 +17,12 @@ interface MessagesProps {
   className?: string;
   isStreaming?: boolean;
   messages?: Message[];
+  addToolResult?: ({ toolCallId, result }: { toolCallId: string; result: any }) => void;
 }
 
 export const Messages = forwardRef<HTMLDivElement, MessagesProps>(
   (props: MessagesProps, ref: ForwardedRef<HTMLDivElement> | undefined) => {
-    const { id, isStreaming = false, messages = [] } = props;
+    const { id, isStreaming = false, messages = [], addToolResult } = props;
     const location = useLocation();
     const profile = useStore(profileStore);
 
@@ -94,6 +95,8 @@ export const Messages = forwardRef<HTMLDivElement, MessagesProps>(
                         messageId={messageId}
                         onRewind={handleRewind}
                         onFork={handleFork}
+                        parts={message.parts as any}
+                        addToolResult={addToolResult || (() => {})}
                       />
                     )}
                   </div>

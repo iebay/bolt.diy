@@ -11,6 +11,7 @@ import type { ContextAnnotation, ProgressAnnotation } from '~/types/context';
 import { WORK_DIR } from '~/utils/constants';
 import { createSummary } from '~/lib/.server/llm/create-summary';
 import { extractPropertiesFromMessage } from '~/lib/.server/llm/utils';
+import { MCPService } from '~/lib/services/mcpService';
 
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
@@ -37,7 +38,7 @@ function parseCookies(cookieHeader: string): Record<string, string> {
 }
 
 async function chatAction({ context, request }: ActionFunctionArgs) {
-  const { messages, files, promptId, contextOptimization, supabase } = await request.json<{
+  const { messages, files, promptId, contextOptimization, supabase, maxLLMSteps } = await request.json<{
     messages: Messages;
     files: any;
     promptId?: string;
@@ -69,7 +70,9 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
   let progressCounter: number = 1;
 
   try {
-    const totalMessageContent = messages.reduce((acc, message) => acc + message.content, '');
+    const mcpService = MCPService.getInstance();
+      const processedMessages = await mcpService.processToolInvocations(messages, dataStream);
+      const totalMessageContent = processedMessages.reduce((acc, message) => acc + (typeof message.content === 'string' ? message.content : ''), '');
     logger.debug(`Total message length: ${totalMessageContent.split(' ').length}, words`);
 
     let lastChunk: string | undefined = undefined;
@@ -189,7 +192,14 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
 
         const options: StreamingOptions = {
           supabaseConnection: supabase,
-          toolChoice: 'none',
+          toolChoice: 'auto',
+          tools: mcpService.toolsWithoutExecute,
+          maxSteps: maxLLMSteps || 5,
+          onStepFinish: ({ toolCalls }) => {
+            toolCalls.forEach((toolCall) => {
+              mcpService.processToolCall(toolCall, dataStream);
+            });
+          },
           onFinish: async ({ text: content, finishReason, usage }) => {
             logger.debug('usage', JSON.stringify(usage));
 

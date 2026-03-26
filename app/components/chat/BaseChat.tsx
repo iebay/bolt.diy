@@ -82,6 +82,7 @@ interface BaseChatProps {
   clearDeployAlert?: () => void;
   data?: JSONValue[] | undefined;
   actionRunner?: ActionRunner;
+  addToolResult?: ({ toolCallId, result }: { toolCallId: string; result: any }) => void;
 }
 
 export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
@@ -362,6 +363,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                         className="flex flex-col w-full flex-1 max-w-chat pb-6 mx-auto z-1"
                         messages={messages}
                         isStreaming={isStreaming}
+                        addToolResult={addToolResult}
                       />
                     ) : null;
                   }}

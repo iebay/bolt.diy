@@ -4,7 +4,7 @@
  */
 import { useStore } from '@nanostores/react';
 import type { Message } from 'ai';
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 import { useAnimate } from 'framer-motion';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { cssTransition, toast, ToastContainer } from 'react-toastify';
@@ -27,6 +27,7 @@ import { logStore } from '~/lib/stores/logs';
 import { streamingState } from '~/lib/stores/streaming';
 import { filesToArtifacts } from '~/utils/fileUtils';
 import { supabaseConnection } from '~/lib/stores/supabase';
+import { useMCPStore } from '~/lib/stores/mcp';
 
 const toastAnimation = cssTransition({
   enter: 'animated fadeInRight',
@@ -147,6 +148,7 @@ export const ChatImpl = memo(
     const [animationScope, animate] = useAnimate();
 
     const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
+    const mcpSettings = useMCPStore((state) => state.settings);
 
     const {
       messages,
@@ -161,6 +163,7 @@ export const ChatImpl = memo(
       error,
       data: chatData,
       setData,
+      addToolResult,
     } = useChat({
       api: '/api/chat',
       body: {
@@ -168,6 +171,7 @@ export const ChatImpl = memo(
         files,
         promptId,
         contextOptimization: contextOptimizationEnabled,
+        maxLLMSteps: mcpSettings.maxLLMSteps,
         supabase: {
           isConnected: supabaseConn.isConnected,
           hasSelectedProject: !!selectedProject,
@@ -564,6 +568,7 @@ export const ChatImpl = memo(
         deployAlert={deployAlert}
         clearDeployAlert={() => workbenchStore.clearDeployAlert()}
         data={chatData}
+        addToolResult={addToolResult}
       />
     );
   },
