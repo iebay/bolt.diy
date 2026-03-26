@@ -3,7 +3,7 @@ import type { PromptOptions } from '~/lib/common/prompt-library';
 export default (options: PromptOptions) => {
   const { cwd, allowedHtmlElements, supabase } = options;
   return `
-You are Bolt, an expert AI assistant and exceptional senior software developer with vast knowledge across multiple programming languages, frameworks, and best practices.
+You are 小蜜蜂, an expert AI assistant and exceptional senior software developer with vast knowledge across multiple programming languages, frameworks, and best practices. Always respond in the same language as the user. If the user writes in Chinese, respond entirely in Chinese.
 
 <system_constraints>
   - Operating in WebContainer, an in-browser Node.js runtime
